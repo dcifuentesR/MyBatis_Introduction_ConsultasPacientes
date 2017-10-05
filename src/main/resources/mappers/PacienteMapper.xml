@@ -7,11 +7,14 @@
 <mapper namespace="edu.eci.pdsw.persistence.impl.mappers.PacienteMapper">
     
 
-    <insert parameterType="map" id="insertarPaciente">
+    <insert parameterType="map" id="insertarPaciente" >
+        INSERT INTO CM_PACIENTES(id,tipo_id,nombre,fecha_nacimiento,EPS_nit)
+        VALUES (#{pac.id},#{pac.tipoId},#{pac.nombre},#{pac.fechaNacimiento},#{pac.eps.nit});
     </insert>
     
-    <insert parameterType="map"  id="insertarConsulta">
-        
+    <insert parameterType="map"  id="insertConsulta">
+        INSERT INTO CM_CONSULTAS(idCONSULTAS,fecha_y_hora,resumen,costo,PACIENTES_id,PACIENTES_tipo_id)
+        VALUES (#{con.id},#{con.fechayHora},#{con.resumen},#{costoCon},#{idp},#{tipoidp});
     </insert>    
     <select parameterType="map" id="loadPacienteById" resultMap="PacienteResult">
         select
@@ -63,8 +66,8 @@
         <result property="tipoId" column="tipo_id"/>
         <result property="nombre" column="nombre"/>
         <result property="fechaNacimiento" column="fecha_nacimiento"/>
-        <association property="eps" javaType="Eps" columnPrefix="eps_"/>
-        <collection property="consultas" ofType="Consulta" />
+        <association property="eps" javaType="Eps" columnPrefix="eps_" resultMap="EpsResult"/>
+        <collection property="consultas" ofType="Consulta" resultMap="ConsultaResult"/>
         
         
     </resultMap>
@@ -78,7 +81,6 @@
     
     <resultMap type="Eps" id="EpsResult" >
         <id property="nit" column="nit"/>
-        <result property="nombre" column="nombre"/>
         <result property="nombre" column="nombre"/>
     </resultMap>
 

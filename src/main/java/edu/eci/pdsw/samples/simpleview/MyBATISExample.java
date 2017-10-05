@@ -6,9 +6,12 @@
 package edu.eci.pdsw.samples.simpleview;
 
 import edu.eci.pdsw.persistence.impl.mappers.PacienteMapper;
+import edu.eci.pdsw.samples.entities.Consulta;
+import edu.eci.pdsw.samples.entities.Eps;
 import edu.eci.pdsw.samples.entities.Paciente;
 import java.io.IOException;
 import java.io.InputStream;
+import java.sql.Date;
 import java.sql.SQLException;
 import java.util.List;
 import org.apache.ibatis.io.Resources;
@@ -52,9 +55,13 @@ public class MyBATISExample {
         SqlSession sqlss = sessionfact.openSession();
         PacienteMapper pmapper=sqlss.getMapper(PacienteMapper.class);
 
-        Paciente paciente=pmapper.loadPacienteById(12313, "CC");
         
-        System.out.print(paciente);
+        //pmapper.insertarPaciente(new Paciente(123432,"CC","Daniel",Date.valueOf("1996-08-13"),null));
+        pmapper.insertConsulta(new Consulta(Date.valueOf("1999-05-23"),"res",32543), 225300, "CC", 32543);
+        List<Paciente> pacientes=pmapper.loadPacientes();
+        Paciente paciente=pmapper.loadPacienteById(225300, "CC");
+        System.out.print(pacientes);
+        System.out.print(paciente.getConsultas());
     }
 
     /**
