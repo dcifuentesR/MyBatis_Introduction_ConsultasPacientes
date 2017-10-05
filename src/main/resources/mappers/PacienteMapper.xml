@@ -7,9 +7,33 @@
 <mapper namespace="edu.eci.pdsw.persistence.impl.mappers.PacienteMapper">
     
 
+    <insert parameterType="map" id="insertarPaciente">
+    </insert>
+    
+    <insert parameterType="map"  id="insertarConsulta">
         
-    <select parameterType="map" id="loadPacienteByID" resultMap="PacienteResult">
+    </insert>    
+    <select parameterType="map" id="loadPacienteById" resultMap="PacienteResult">
+        select
+    
+    p.id,
+    p.tipo_id,
+    p.nombre,
+    p.fecha_nacimiento,
 
+    e.nombre AS eps_nombre,
+    e.nit AS eps_nit,
+
+    c.idCONSULTAS,
+    c.fecha_y_hora,
+    c.resumen,
+    c.costo
+
+    
+    FROM  CM_PACIENTES as p left join CM_CONSULTAS as c on p.id=c.PACIENTES_id 
+                            left join CM_EPS as e on p.eps_nit=e.nit
+        
+    WHERE p.id=#{idp} and p.tipo_id=#{tipoidp}
     </select>
     
        
@@ -21,8 +45,8 @@
     p.nombre,
     p.fecha_nacimiento,
 
-    e.nombre,
-    e.nit,
+    e.nombre AS eps_nombre,
+    e.nit AS eps_nit,
 
     c.idCONSULTAS,
     c.fecha_y_hora,
@@ -35,15 +59,28 @@
     </select>
     
     <resultMap type="Paciente" id="PacienteResult">
-        <id prop="id" column="id"/>
-        <result prop="tipoId" column="tipo_id"/>
-        <result prop="nombre" column="nombre"/>
-        <result prop="fechaNacimiento" column="fecha-nacimiento"/>
-        <association prop="eps" javaType="Eps" columnPrefix="eps_"/>
+        <id property="id" column="id"/>
+        <result property="tipoId" column="tipo_id"/>
+        <result property="nombre" column="nombre"/>
+        <result property="fechaNacimiento" column="fecha_nacimiento"/>
+        <association property="eps" javaType="Eps" columnPrefix="eps_"/>
+        <collection property="consultas" ofType="Consulta" />
         
         
     </resultMap>
     
+    <resultMap type="Consulta" id="ConsultaResult">
+        <id property="id" column="idCONSULTAS"/>
+        <result property="fechayHora" column="fecha_y_hora"/>
+        <result property="resumen" column="resumen"/>
+        <result property="costo" column="costo"/>
+    </resultMap>
+    
+    <resultMap type="Eps" id="EpsResult" >
+        <id property="nit" column="nit"/>
+        <result property="nombre" column="nombre"/>
+        <result property="nombre" column="nombre"/>
+    </resultMap>
 
                 
 </mapper>
