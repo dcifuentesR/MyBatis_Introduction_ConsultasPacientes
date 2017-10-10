@@ -12,7 +12,7 @@
         VALUES (#{pac.id},#{pac.tipoId},#{pac.nombre},#{pac.fechaNacimiento},#{pac.eps.nit});
     </insert>
     
-    <insert parameterType="map"  id="insertConsulta">
+    <insert parameterType="map"  id="insertConsulta" useGeneratedKeys="true" keyProperty="con.id">
         INSERT INTO CM_CONSULTAS(idCONSULTAS,fecha_y_hora,resumen,costo,PACIENTES_id,PACIENTES_tipo_id)
         VALUES (#{con.id},#{con.fechayHora},#{con.resumen},#{costoCon},#{idp},#{tipoidp});
     </insert>    

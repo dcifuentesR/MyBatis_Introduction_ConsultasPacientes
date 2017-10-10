@@ -70,7 +70,21 @@ public class MyBATISExample {
      * @param p paciente a ser registrado
      */
     public void registrarNuevoPaciente(PacienteMapper pmap, Paciente p){
+        SqlSessionFactory sessionfact = getSqlSessionFactory();
+        SqlSession sqlss = sessionfact.openSession();
+        PacienteMapper pmapper=sqlss.getMapper(PacienteMapper.class);
+
         
+        pmapper.insertarPaciente(p);
+        for(Consulta c:p.getConsultas())
+            pmapper.insertConsulta(c,p.getId(),p.getTipoId(), 0);
+        
+        
+        sqlss.commit();
+        List<Paciente> pacientes=pmapper.loadPacientes();
+        Paciente paciente=pmapper.loadPacienteById(225300, "CC");
+        System.out.print(pacientes);
+        System.out.print(paciente.getConsultas());
     }
     
 }
