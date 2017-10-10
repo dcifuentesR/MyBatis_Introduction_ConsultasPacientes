@@ -61,6 +61,12 @@
                             left join CM_EPS as e on p.eps_nit=e.nit
     </select>
     
+    <update parameterType="map" id="actualizarPaciente">
+        UPDATE CM_PACIENTES
+        SET id=#{pac.id}, tipo_id=#{pac.tipoid},EPS_nit=#{pac.eps.nit};
+        WHERE <!--aqui>
+    </update>
+    
     <resultMap type="Paciente" id="PacienteResult">
         <id property="id" column="id"/>
         <result property="tipoId" column="tipo_id"/>

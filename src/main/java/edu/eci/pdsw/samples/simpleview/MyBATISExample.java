@@ -87,4 +87,15 @@ public class MyBATISExample {
         System.out.print(paciente.getConsultas());
     }
     
+    /**
+    * @obj Actualizar los datos básicos del paciente, con sus * respectivas consultas.
+    * @pre El paciente p ya existe
+    * @param pmap mapper a traves del cual se hará la operacion
+    * @param p paciente a ser registrado
+    */
+    public void actualizarPaciente(PacienteMapper pmap, Paciente p)
+    {
+        
+    }
+    
 }
