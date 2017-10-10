@@ -7,7 +7,7 @@
 <mapper namespace="edu.eci.pdsw.persistence.impl.mappers.PacienteMapper">
     
 
-    <insert parameterType="map" id="insertarPaciente" >
+    <insert parameterType="map" id="insertarPaciente" resultMap="PacienteResult">
         INSERT INTO CM_PACIENTES(id,tipo_id,nombre,fecha_nacimiento,EPS_nit)
         VALUES (#{pac.id},#{pac.tipoId},#{pac.nombre},#{pac.fechaNacimiento},#{pac.eps.nit});
     </insert>
@@ -61,10 +61,11 @@
                             left join CM_EPS as e on p.eps_nit=e.nit
     </select>
     
-    <update parameterType="map" id="actualizarPaciente">
+    <update parameterType="map" id="actualizarPaciente" resultMap="PacienteResult">
         UPDATE CM_PACIENTES
-        SET id=#{pac.id}, tipo_id=#{pac.tipoid},EPS_nit=#{pac.eps.nit};
-        WHERE <!--aqui>
+        SET nombre=#{pac.nombre},EPS_nit=#{pac.eps.nit}
+        WHERE id=#{pac.id} AND tipo_id=#{pac.tipoid};
+        
     </update>
     
     <resultMap type="Paciente" id="PacienteResult">

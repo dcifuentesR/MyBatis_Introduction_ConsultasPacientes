@@ -77,7 +77,7 @@ public class MyBATISExample {
         
         pmapper.insertarPaciente(p);
         for(Consulta c:p.getConsultas())
-            pmapper.insertConsulta(c,p.getId(),p.getTipoId(), 0);
+            pmapper.insertConsulta(c,p.getId(),p.getTipoId(),(int)c.getCosto());
         
         
         sqlss.commit();
@@ -95,7 +95,17 @@ public class MyBATISExample {
     */
     public void actualizarPaciente(PacienteMapper pmap, Paciente p)
     {
+        SqlSessionFactory sessionfact = getSqlSessionFactory();
+        SqlSession sqlss = sessionfact.openSession();
+        PacienteMapper pmapper=sqlss.getMapper(PacienteMapper.class);
         
+        pmapper.actualizarPaciente(p);
+        
+        for(Consulta c:p.getConsultas())
+            if(c.getId()==0)
+                pmapper.insertConsulta(c, p.getId(), p.getTipoId(), (int)c.getCosto());
+        
+        sqlss.commit();
     }
     
 }
